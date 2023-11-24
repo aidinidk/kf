@@ -1,0 +1,26 @@
+import 'package:kf/models/word.dart';
+
+final mainData = [
+  Word(name: 'ретінде', meaning: 'as', diffuclty: 'A1'),
+  Word(name: 'мен', meaning: 'I', diffuclty: 'A1'),
+  Word(name: 'оның', meaning: 'his', diffuclty: 'A1'),
+  Word(name: 'сол', meaning: 'that', diffuclty: 'A1'),
+  Word(name: 'ол', meaning: 'he', diffuclty: 'A1'),
+  Word(name: 'болды', meaning: 'was', diffuclty: 'A1'),
+  Word(name: 'үшін', meaning: 'for', diffuclty: 'A1'),
+  Word(name: 'бойынша', meaning: 'on', diffuclty: 'A2'),
+  Word(name: 'болып табылады', meaning: 'are', diffuclty: 'A2'),
+  Word(name: 'бірге', meaning: 'with', diffuclty: 'A2'),
+  Word(name: 'олар', meaning: 'they', diffuclty: 'A2'),
+  Word(name: 'болуы', meaning: 'be', diffuclty: 'A2'),
+  Word(name: 'жанында', meaning: 'at', diffuclty: 'A2'),
+  Word(name: 'бір', meaning: 'one', diffuclty: 'A2'),
+  Word(name: 'бар	', meaning: 'have', diffuclty: 'B1'),
+  Word(name: 'осы', meaning: 'this', diffuclty: 'B1'),
+  Word(name: 'дан', meaning: 'from', diffuclty: 'B1'),
+  Word(name: 'арқылы', meaning: 'by', diffuclty: 'B1'),
+  Word(name: 'ыстық', meaning: 'hot', diffuclty: 'B1'),
+  Word(name: 'сөз', meaning: 'word', diffuclty: 'B2'),
+  Word(name: 'бірақ', meaning: 'but', diffuclty: 'B2'),
+  Word(name: 'не', meaning: 'what', diffuclty: 'B2'),
+];
