@@ -7,24 +7,10 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void goToA1() {
+    void goTo(des) {
+      Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (ctx) => const DifficultyScreen(difficulty: 'A1')));
-    }
-
-    void goToA2() {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (ctx) => const DifficultyScreen(difficulty: 'A2')));
-    }
-
-    void goToB1() {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (ctx) => const DifficultyScreen(difficulty: 'B1')));
-    }
-
-    void goToB2() {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (ctx) => const DifficultyScreen(difficulty: 'B2')));
+          builder: (ctx) => DifficultyScreen(difficulty: des)));
     }
 
     return Drawer(
@@ -67,25 +53,34 @@ class MainDrawer extends StatelessWidget {
             ),
             ListTile(
               title: const Text('A1'),
-              onTap: goToA1,
+              onTap: () {
+                goTo('A1');
+              },
             ),
             ListTile(
               title: const Text('A2'),
-              onTap: goToA2,
+              onTap: () {
+                goTo('A2');
+              },
             ),
             ListTile(
               title: const Text('B1'),
-              onTap: goToB1,
+              onTap: () {
+                goTo('B1');
+              },
             ),
             ListTile(
               title: const Text('B2'),
-              onTap: goToB2,
+              onTap: () {
+                goTo('B2');
+              },
             ),
             const Spacer(),
             Row(
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
+                    Navigator.of(context).pop();
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (ctx) => const AboutScreen()));
                   },
