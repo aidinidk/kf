@@ -1,82 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:kf/screens/about_screen.dart';
-import 'package:kf/screens/difficulty_screen.dart';
+import 'package:kf/theme/theme_manager.dart';
+import 'package:kf/widgets/filter_difficulty.dart';
 
-class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key});
+class MainDrawer extends StatefulWidget {
+  const MainDrawer(
+      {super.key, required this.themeManager, required this.notifyParent});
+  final ThemeManager themeManager;
+  final Function() notifyParent;
+  @override
+  State<MainDrawer> createState() => _MainDrawerState();
+}
 
+class _MainDrawerState extends State<MainDrawer> {
   @override
   Widget build(BuildContext context) {
-    void goTo(des) {
-      Navigator.of(context).pop();
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (ctx) => DifficultyScreen(difficulty: des)));
-    }
-
     return Drawer(
-      child: Expanded(
-        child: Column(
-          children: [
-            DrawerHeader(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.primaryContainer,
-                    Theme.of(context)
-                        .colorScheme
-                        .primaryContainer
-                        .withOpacity(0.8),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomLeft,
-                ),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.subdirectory_arrow_left,
-                    size: 48,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  const SizedBox(
-                    width: 18,
-                  ),
-                  Text(
-                    "Classes",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                  ),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      child: Column(
+        children: [
+          DrawerHeader(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.surface,
+                  Theme.of(context).colorScheme.surface.withOpacity(0.5),
                 ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomLeft,
               ),
             ),
-            ListTile(
-              title: const Text('A1'),
-              onTap: () {
-                goTo('A1');
-              },
+            child: Stack(
+              children: [
+                Positioned(
+                  right: 0,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        color: widget.themeManager.themeMode == ThemeMode.dark
+                            ? Colors.yellow
+                            : Colors.blue,
+                        onPressed: () {
+                          widget.themeManager.toggleTheme(
+                              widget.themeManager.themeMode != ThemeMode.dark);
+                          widget.notifyParent;
+                        },
+                        icon: Icon(
+                            widget.themeManager.themeMode == ThemeMode.dark
+                                ? Icons.sunny
+                                : Icons.dark_mode),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: 60,
+                  left: 0,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.subdirectory_arrow_left,
+                        size: 48,
+                        color: Theme.of(context).colorScheme.onBackground,
+                      ),
+                      const SizedBox(
+                        width: 18,
+                      ),
+                      Text(
+                        "کلاس ها",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            fontSize: 30),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            ListTile(
-              title: const Text('A2'),
-              onTap: () {
-                goTo('A2');
-              },
-            ),
-            ListTile(
-              title: const Text('B1'),
-              onTap: () {
-                goTo('B1');
-              },
-            ),
-            ListTile(
-              title: const Text('B2'),
-              onTap: () {
-                goTo('B2');
-              },
-            ),
-            const Spacer(),
-            Row(
+          ),
+          const FilterDifficulty(),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10, right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
@@ -84,13 +92,23 @@ class MainDrawer extends StatelessWidget {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (ctx) => const AboutScreen()));
                   },
-                  icon: const Icon(Icons.info),
-                  label: const Text('About'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).colorScheme.surface),
+                  ),
+                  icon: Icon(Icons.info,
+                      color: Theme.of(context).colorScheme.onBackground),
+                  label: Text(
+                    'درباره',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                  ),
                 ),
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kf/providers/difficulty_provider.dart';
+import 'package:kf/theme/theme_manager.dart';
 import 'package:kf/widgets/main_drawer.dart';
 import 'package:kf/widgets/word_list.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen(
+      {super.key, required this.themeManager, required this.notifyParent});
+  final ThemeManager themeManager;
+  final Function() notifyParent;
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _serachTextField() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
@@ -24,11 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
         autofocus: true,
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   bool _searchBoolean = false;
@@ -49,50 +49,77 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onQueryChanged(String newQuery) {
     setState(() {
       _query = newQuery;
-      if (_queryController.text == '') {
-        _searchBoolean = false;
-      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    var title = '';
+    List<String> filterText = [];
+    final activeFilters = ref.watch(filtersProvider);
+    if (activeFilters[Difficulty.a1]! ||
+        activeFilters[Difficulty.a2]! ||
+        activeFilters[Difficulty.b1]! ||
+        activeFilters[Difficulty.b2]!) {
+      title = ' :فیلتر شده';
+    }
+    if (activeFilters[Difficulty.a1]!) {
+      filterText.add('A1');
+    }
+    if (activeFilters[Difficulty.a2]!) {
+      filterText.add('A2');
+    }
+    if (activeFilters[Difficulty.b1]!) {
+      filterText.add('B1');
+    }
+    if (activeFilters[Difficulty.b2]!) {
+      filterText.add('B2');
+    }
+    Widget appBarTitle =
+        title == '' ? const Text('همه') : Text('$filterText $title');
+
     return Scaffold(
-      appBar: AppBar(
-          title: !_searchBoolean ? const Text('All') : _serachTextField(),
-          actions: !_searchBoolean
-              ? [
-                  IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _searchBoolean = true;
-                        });
-                      },
-                      icon: const Icon(Icons.search))
-                ]
-              : [
-                  IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        setState(() {
-                          _query = '';
-                          _queryController.clear();
-                          _searchBoolean = false;
-                        });
-                      })
-                ]),
-      drawer: const MainDrawer(),
+      backgroundColor: Theme.of(context).colorScheme.copyWith().surface,
+      drawer: MainDrawer(
+        themeManager: widget.themeManager,
+        notifyParent: widget.notifyParent,
+      ),
       drawerEdgeDragWidth: MediaQuery.of(context).size.width,
       resizeToAvoidBottomInset: true,
-      body: Column(
-        children: [
-          Expanded(
-            child: WordList(
-              query: _query,
-              difficuulty: 'none',
-            ),
-          ),
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+              backgroundColor: Theme.of(context).colorScheme.background,
+              floating: true,
+              snap: true,
+              title: !_searchBoolean ? appBarTitle : _serachTextField(),
+              actions: !_searchBoolean
+                  ? [
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _searchBoolean = true;
+                            });
+                          },
+                          icon: const Icon(Icons.search))
+                    ]
+                  : [
+                      IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            setState(() {
+                              _query = '';
+                              _queryController.clear();
+                              _searchBoolean = false;
+                            });
+                          })
+                    ]),
         ],
+        body: WordList(
+          query: _query,
+          difficuulty: 'none',
+        ),
       ),
     );
   }

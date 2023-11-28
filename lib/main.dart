@@ -1,24 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kf/screens/home_screen.dart';
+import 'package:kf/theme/theme_constants.dart';
+import 'package:kf/theme/theme_manager.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  final binding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: binding);
+  runApp(const ProviderScope(child: MyApp()));
+  await Future.delayed(const Duration(milliseconds: 1));
+  FlutterNativeSplash.remove();
 }
 
-class MyApp extends StatelessWidget {
+ThemeManager _themeManager = ThemeManager();
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void dispose() {
+    _themeManager.removeListener(themeListener);
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _themeManager.addListener(themeListener);
+    super.initState();
+  }
+
+  themeListener() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void refresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Dictorany',
-      theme: ThemeData.dark().copyWith(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromARGB(255, 58, 138, 27),
-              brightness: Brightness.dark,
-              surface: const Color.fromARGB(255, 65, 51, 62)),
-          scaffoldBackgroundColor: const Color.fromARGB(255, 134, 70, 194)),
-      home: const HomeScreen(),
+      theme: lighTheme,
+      darkTheme: darkTheme,
+      themeMode: _themeManager.themeMode,
+      home: HomeScreen(
+        themeManager: _themeManager,
+        notifyParent: refresh,
+      ),
     );
   }
 }

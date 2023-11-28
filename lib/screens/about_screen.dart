@@ -28,45 +28,91 @@ class AboutScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text('About'),
+        backgroundColor: Theme.of(context).colorScheme.background,
+        title: const Text('درباره'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(25),
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Theme.of(context).colorScheme.background,
-            ),
-            padding: const EdgeInsets.all(50),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Text('This app was made for :'),
-                InkWell(
-                  onTap: launchOwner,
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/instgram.png',
-                        width: 50,
-                      ),
-                      const SizedBox(width: 10),
-                      const Text('Go to'),
-                      const Icon(Icons.arrow_right),
-                    ],
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              width: double.infinity,
+              height: 700,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Theme.of(context).colorScheme.background,
+              ),
+              padding: const EdgeInsets.all(50),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'این اپ یک اپ دیکشنری ساده قزاقی به فارسی است که برای یادگیری و آموزش از آن استفاده می شود',
+                    textAlign: TextAlign.right,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
                   ),
-                ),
-                Expanded(
-                  child: Column(
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    'در صورت هر گونه سوال و بازخورد در مورد کلمات، معانی و ... میتوانید به پیج زیر مراجعه فرمایید',
+                    textAlign: TextAlign.right,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: launchOwner,
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset(
+                            'assets/images/instgram.png',
+                            width: 50,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'برو به',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                    ),
+                              ),
+                              const Icon(Icons.arrow_right),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        'My socials : ',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        'در صورت هر گونه سوال در زمینه کاربردی برنامه و یا بازخورد می توانید به آدرس های زیر مراجعه فرمایید',
+                        textAlign: TextAlign.right,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Theme.of(context).colorScheme.onBackground,
                             ),
                       ),
@@ -75,36 +121,81 @@ class AboutScreen extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: launchInstgram,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/instgram.png',
-                              width: 50,
-                            ),
-                            const SizedBox(width: 10),
-                            const Text('Go to'),
-                            const Icon(Icons.arrow_right),
-                          ],
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.asset(
+                                'assets/images/instgram.png',
+                                width: 50,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'برو به',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                        ),
+                                  ),
+                                  const Icon(Icons.arrow_right),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       InkWell(
                         onTap: launchTelegram,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/telegram.png',
-                              width: 50,
-                            ),
-                            const SizedBox(width: 10),
-                            const Text('Go to'),
-                            const Icon(Icons.arrow_right),
-                          ],
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.asset(
+                                'assets/images/telegram.png',
+                                width: 50,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'برو به',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                        ),
+                                  ),
+                                  const Icon(Icons.arrow_right),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
